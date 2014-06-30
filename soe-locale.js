@@ -5,9 +5,7 @@ function parseIndex(data) {
 
 }
 
-
 function parse(dataFile, indexFile, callback) {
-    var strings = [];
     fs.readFile(dataFile, function(err, data) {
         if (err) {
             callback(err); 
@@ -20,29 +18,37 @@ function parse(dataFile, indexFile, callback) {
                 return;
             }
 
-            var lines = indexData.toString("utf-8").split("\n");
-            for (var i=0;i<lines.length;i++) {
-                var line = lines[i];
-                if (line.length > 0 && line[0] != "#") {
-                    var parts = line.split("\t"),
-                        hash = +parts[0],
-                        dataStart = +parts[1],
-                        dataLength = +parts[2],
-                        stringData = data.slice(dataStart, dataStart+dataLength).toString("utf-8"),
-                        stringParts = stringData.split("\t"),
-                        flags = stringParts[1],
-                        string = stringParts.slice(2).join("\t");
-                    strings.push({
-                        hash: hash,
-                        flags: flags,
-                        string: string
-                    });
-                }
-            }
+            var strings = parseFromBuffer(data, indexData);
 
             callback(null, strings);
         });
     });
+}
+
+function parseFromBuffer(data, indexData) {
+    var strings = [],
+        lines = indexData.toString("utf-8").split("\n");
+
+    for (var i=0;i<lines.length;i++) {
+        var line = lines[i];
+        if (line.length > 0 && line[0] != "#") {
+            var parts = line.split("\t"),
+                hash = +parts[0],
+                dataStart = +parts[1],
+                dataLength = +parts[2],
+                stringData = data.slice(dataStart, dataStart+dataLength).toString("utf-8"),
+                stringParts = stringData.split("\t"),
+                flags = stringParts[1],
+                string = stringParts.slice(2).join("\t");
+            strings.push({
+                hash: hash,
+                flags: flags,
+                string: string
+            });
+        }
+    }
+
+    return strings;
 }
 
 function write(strings, dataFile, indexFile, callback) {
@@ -77,4 +83,5 @@ function write(strings, dataFile, indexFile, callback) {
 }
 
 exports.parse = parse;
+exports.parseFromBuffer = parseFromBuffer;
 exports.write = write;
