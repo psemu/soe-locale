@@ -1,0 +1,10 @@
+{
+    "name": "soe-locale",
+    "description": "SOE Locale file parser",
+    "version": "0.1.0",
+    "main": "soe-locale.js",
+    "repository" : {
+        "type" : "git", 
+        "url" : "https://github.com/jseidelin/soe-locale.git"
+    },
+}
