@@ -26,7 +26,7 @@ function parse(dataFile, indexFile, callback) {
 }
 
 function parseFromBuffer(data, indexData) {
-    var strings = [],
+    var strings = {},
         lines = indexData.toString("utf-8").split("\n");
 
     for (var i=0;i<lines.length;i++) {
@@ -40,11 +40,11 @@ function parseFromBuffer(data, indexData) {
                 stringParts = stringData.split("\t"),
                 flags = stringParts[1],
                 string = stringParts.slice(2).join("\t");
-            strings.push({
+            strings[hash] = {
                 hash: hash,
                 flags: flags,
                 string: string
-            });
+            };
         }
     }
 
