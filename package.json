@@ -3,6 +3,12 @@
     "description": "SOE Locale file parser",
     "version": "0.1.0",
     "main": "soe-locale.js",
+    "author": {
+        "name" : "Jacob Seidelin", 
+        "email" : "jseidelin@nihilogic.dk", 
+        "url" : "http://github.com/jseidelin"
+    },
+    "license": "MIT",
     "repository" : {
         "type" : "git", 
         "url" : "https://github.com/jseidelin/soe-locale.git"
